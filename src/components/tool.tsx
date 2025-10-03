@@ -30,7 +30,6 @@ export default function Tool() {
           c++;
           k /= i;
 
-          
           setResult([...nums, [i, c]]);
         }
 
@@ -43,7 +42,7 @@ export default function Tool() {
           return;
         }
       }
-      
+
       if (k > 1n) nums.push([k, 1]);
 
       // Cancel if token changed before setting result
@@ -78,7 +77,7 @@ export default function Tool() {
       <p className="mt-3">Result:</p>
       <div>
         { result.map(i => `${i[0].toString()}${i[1] > 1 ? ` ^ ${i[1]}` : ""}`).join(' * ') }
-        {!factorizationComplete && <LoaderCircle className="animate-spin" />}
+        {!factorizationComplete && <LoaderCircle className="animate-spin inline-block ml-1" size={20} />}
       </div>
     </div>
   );

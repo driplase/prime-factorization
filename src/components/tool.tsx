@@ -90,8 +90,8 @@ export default function Tool() {
       <div>
         { result.map((item, idx) =>
           <>
-            <div key={idx} className="bg-blue-500 shadow-md shadow-blue-500/50 rounded-sm animate-appear p-0.5 inline-block">
-              `${item[0].toString()}${item[1] > 1 ? ` ^ ${item[1]}` : ""}`
+            <div key={item[0]} className="bg-blue-500 shadow-md shadow-blue-500/50 rounded-sm animate-appear px-0.5 py-1 inline-block">
+              {item[0].toString()}{item[1] > 1 && ` ^ ${item[1]}`}
             </div>
             {idx !== result.length - 1 && " * "}
           </>

@@ -88,7 +88,11 @@ export default function Tool() {
         Result: <span className="text-gray-300 text-sm">({ dividerProgress })</span>
       </p>
       <div>
-        { result.map(i => `${i[0].toString()}${i[1] > 1 ? ` ^ ${i[1]}` : ""}`).join(' * ') }
+        { result.map((item, idx) =>
+          <div className="bg-blue-500 shadow-md shadow-blue-500/50 rounded-sm animate-appear p-0.5">
+            `${item[0].toString()}${item[1] > 1 ? ` ^ ${item[1]}` : ""}`
+          </div>
+          ).join(' * ') }
         {!factorizationComplete && <LoaderCircle className="animate-spin inline-block ml-1" size={20} />}
       </div>
     </div>

@@ -89,7 +89,7 @@ export default function Tool() {
       </p>
       <div>
         { result.map((item, idx) =>
-          <div className="bg-blue-500 shadow-md shadow-blue-500/50 rounded-sm animate-appear p-0.5">
+          <div className="bg-blue-500 shadow-md shadow-blue-500/50 rounded-sm animate-appear p-0.5 inline-block">
             `${item[0].toString()}${item[1] > 1 ? ` ^ ${item[1]}` : ""}`
           </div>
           ).join(' * ') }

@@ -63,7 +63,7 @@ export default function Tool() {
   }
 
   return (
-    <div className="bg-conic-315 from-indigo-100 via-fuchsia-100 to-indigo-100 px-6 py-4 rounded-xl border border-slate-500/72 ring ring-gray-400/64">
+    <div className="text-black bg-conic-315 from-indigo-100 via-fuchsia-100 to-indigo-100 px-6 py-4 rounded-xl border border-slate-500/72 ring ring-gray-400/64">
       <h1 className="font-bold text-2xl mb-1 pb-1 text-center">Prime Factorization Tool</h1>
 
       <div>

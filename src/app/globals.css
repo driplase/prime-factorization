@@ -28,7 +28,7 @@ body {
 @keyframes appear {
   from {
     opacity: 0;
-    filter: blur(8px);
+    filter: blur(4px);
     transform: translateY(16px);
   }
   to {

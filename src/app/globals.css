@@ -39,5 +39,5 @@ body {
 }
 
 .animate-appear {
-  animation: appear .64s ease-out;
+  animation: appear .64s cubic-bezier(0.25, 1, 0.5, 1);
 }

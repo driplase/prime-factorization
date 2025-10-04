@@ -28,12 +28,12 @@ body {
 @keyframes appear {
   from {
     opacity: 0;
-    filter: blur(4px);
+    filter: blur(8px) var(--tw-hue-rotate,);
     transform: translateY(16px);
   }
   to {
     opacity: 1;
-    filter: blur(0);
+    filter: blur(0px) var(--tw-hue-rotate,);
     transform: translateY(0px);
   }
 }

@@ -1,7 +1,22 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, Fragment, useRef, useState } from "react";
 import { LoaderCircle } from 'lucide-react';
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+function formatExponent(exponent: number, type: boolean) {
+  if (!type) return ` ^ ${exponent}`;
+
+  /* completely forgot about <sup>
+  const convertTo = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  return exponent.toString().split('').map(i => convertTo[parseInt(i)]).join('');
+  */
+
+  return (
+    <sup>{exponent}</sup>
+  )
+}
 
 export default function Tool() {
   const [n, setN] = useState<bigint | null>(null);
@@ -9,9 +24,10 @@ export default function Tool() {
   const [factorizationComplete, setFactorizationComplete] = useState<boolean>(true);
   const [dividerProgress, setDividerProgress] = useState<bigint | null>(null);
   const [biggerNumber, setBiggerNumber] = useState<boolean>(false);
+  const [exponentType, setExponentType] = useState<boolean>(true)
   const cancelToken = useRef(0); // Add this line
 
-  function factorization(target: bigint) {
+  async function factorization(target: bigint) {
     setResult([]);
     setFactorizationComplete(false);
 
@@ -20,7 +36,7 @@ export default function Tool() {
     const myToken = ++cancelToken.current; // Increment token for this run
 
     let i: bigint = 2n;
-    function step() {
+    async function step() {
       // Cancel if token changed
       if (cancelToken.current !== myToken) return;
 
@@ -36,9 +52,11 @@ export default function Tool() {
           setResult([...nums, [i, c]]);
         }
 
+        await delay(0);
+
         if (c > 0) nums.push([i, c]);
 
-        i++;
+        i += i !== 2n ? 2n : 1n;
 
         if (performance.now() - start > 16) {
           setTimeout(step, 0);
@@ -63,7 +81,7 @@ export default function Tool() {
   }
 
   return (
-    <div className="text-black bg-conic-315 from-indigo-100 via-fuchsia-100 to-indigo-100 px-6 py-4 rounded-xl border border-slate-500/72 ring ring-gray-400/64">
+    <div className="text-black bg-conic-315 from-indigo-100 via-fuchsia-100 to-indigo-100 px-6 py-4 rounded-xl border border-slate-500/72 ring ring-gray-400/64 w-full min-h-full">
       <h1 className="font-bold text-2xl mb-1 pb-1 text-center">Prime Factorization Tool</h1>
 
       <div>
@@ -71,6 +89,11 @@ export default function Tool() {
           Enable bigger number: <input type="checkbox" checked={biggerNumber} onChange={(e) => setBiggerNumber(e.target.checked)} />
         </label>
       </div>
+      <div>
+        <label>   
+          Use 2<sup>n</sup> format: <input type="checkbox" checked={exponentType} onChange={(e) => setExponentType(e.target.checked)} />
+        </label>
+      </div>   
 
       <label>
         Target integer:
@@ -85,16 +108,31 @@ export default function Tool() {
       </label>
 
       <p className="mt-3">
-        Result: <span className="text-gray-300 text-sm">({ dividerProgress })</span>
+        Result: { <span className="text-sm">
+          ({result.length} unique primes)
+        </span> }
+        {!factorizationComplete && <>
+          <LoaderCircle className="animate-spin inline-block mx-1" size={20} />
+          <span
+          className="text-gray-400 text-xs">
+            ({ dividerProgress })
+          </span>
+        </>
+        }
       </p>
       <div>
         { result.map((item, idx) =>
-          <>
-            <div key={item[0]} className="bg-blue-500 shadow-md shadow-blue-500/50 text-white rounded-sm animate-appear px-1 py-0.5 inline-block">
-              {item[0].toString()}{item[1] > 1 && ` ^ ${item[1]}`}
+          <Fragment key={item[0]}>
+            <div
+              className="bg-blue-500 shadow-md shadow-blue-500/50 text-white rounded-sm animate-appear px-1 py-0.5 my-0.5 inline-block blur-none"
+              style={{
+                "--tw-hue-rotate": `hue-rotate(${idx / 7.2}deg)`
+              }}
+            >
+              {item[0].toString()}{item[1] > 1 && formatExponent(item[1], exponentType)}
             </div>
             {idx !== result.length - 1 && " * "}
-          </>
+          </Fragment>
         ) }
         {!factorizationComplete && <LoaderCircle className="animate-spin inline-block ml-1" size={20} />}
       </div>

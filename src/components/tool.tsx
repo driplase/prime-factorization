@@ -134,7 +134,7 @@ export default function Tool() {
               className="bg-blue-500 shadow-md shadow-blue-500/50 text-white rounded-sm animate-appear px-1 py-0.5 my-0.5 inline-block blur-none"
               style={{
                 "--tw-hue-rotate": `hue-rotate(${idx / 7.2}deg)`
-              }}
+              } as React.CSSProperties & Record<string, any>}
             >
               {item[0].toString()}{item[1] > 1 && formatExponent(item[1], exponentType)}
             </div>

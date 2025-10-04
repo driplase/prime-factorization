@@ -26,6 +26,7 @@ export default function Tool() {
   const [biggerNumber, setBiggerNumber] = useState<boolean>(false);
   const [exponentType, setExponentType] = useState<boolean>(true)
   const cancelToken = useRef(0); // Add this line
+  const fasterCalculation = useRef(false);
 
   async function factorization(target: bigint) {
     setResult([]);
@@ -51,11 +52,12 @@ export default function Tool() {
 
           setResult([...nums, [i, c]]);
         }
-
-        await delay(0);
+        
+        if (!fasterCalculation.current) await delay(0);
 
         if (c > 0) nums.push([i, c]);
 
+        // skip evens after 2, since 2 is the only even prime
         i += i !== 2n ? 2n : 1n;
 
         if (performance.now() - start > 16) {
@@ -92,6 +94,11 @@ export default function Tool() {
       <div>
         <label>   
           Use 2<sup>n</sup> format: <input type="checkbox" checked={exponentType} onChange={(e) => setExponentType(e.target.checked)} />
+        </label>
+      </div>   
+      <div>
+        <label>   
+          Faster Calculation <small className="text-sm">(laggier)</small>: <input type="checkbox" defaultChecked={false} onChange={(e) => fasterCalculation.current = e.target.checked} />
         </label>
       </div>   
 
